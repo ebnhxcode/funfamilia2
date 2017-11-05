@@ -1,0 +1,17 @@
+.twitter-typeahead {
+	width: 100%;
+}
+
+.navbar > .container .navbar-brand, .logo {
+    padding: 0px 10px 0px;
+}
+
+input[type=text] {
+  text-transform: uppercase;
+}
+
+/*
+select {
+  text-transform: uppercase;
+}
+*/
