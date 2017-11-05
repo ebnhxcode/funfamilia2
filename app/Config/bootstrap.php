@@ -95,8 +95,6 @@ Configure::write('Dispatcher.filters', array(
 /**
  * Configures default file logging options
  */
-CakePlugin::loadAll();
-CakePlugin::load('DebugKit');
 App::uses('CakeLog', 'Log');
 CakeLog::config('debug', array(
 	'engine' => 'File',
@@ -108,3 +106,5 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+#CakePlugin::loadAll();
+CakePlugin::load('DebugKit');

@@ -31,7 +31,74 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+   /**
+    * Contiene el perfil del usuario
+    *
+    * @var int
+    */
+   public $perf_id;
+
+   /**
+    * Contiene el centro familiar al que pertenece el usuario
+    *
+    * @var int
+    */
+   public $cefa_id;
+
+   /**
+    * Componentes del sistema
+    *
+    * @var array
+    */
    public $components = array(
-      'DebugKit.Toolbar'
+      'Session',
+      'Paginator',
+      'DebugKit.Toolbar',
+      'Auth' => array(
+         'flash' => array(
+            'element' => 'auth',
+            'key' => 'auth',
+            'params' => array()
+         ),
+         'loginAction' => array(
+            'controller' => 'usuarios',
+            'action' => 'login',
+            'plugin' => null
+         ),
+         'authError' => 'Su sesión ha terminado.',
+         'authenticate' => array(
+            'Form' => array(
+               'userModel' => 'Usuario',
+               'fields' => array(
+                  'username' => 'usua_username',
+                  'password' => 'usua_password'
+               )
+            )
+         )
+      )
    );
+
+   /**
+    * Sobreescritura beforeFilter
+    *
+    * @return void
+    */
+   public function beforeFilter() {
+      $url = $this->request->url .'/'. $this->params->action;
+      $this->set(compact('url'));
+
+      if ($this->Auth->loggedIn()) {
+         if (!empty($this->Auth->user('PerfilUsuario.perf_id'))) {
+            $this->perf_id = $this->Auth->user('PerfilUsuario.perf_id');
+            $this->set('perf_id', $this->Auth->user('PerfilUsuario.perf_id'));
+         }
+
+         if (!empty($this->Auth->user('PerfilUsuario.cefa_id'))) {
+            $this->cefa_id = $this->Auth->user('PerfilUsuario.cefa_id');
+            $this->set('cefa_id', $this->Auth->user('PerfilUsuario.cefa_id'));
+         }
+      }
+
+      parent::beforeFilter();
+   }
 }
