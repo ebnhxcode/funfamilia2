@@ -105,6 +105,40 @@ class UsuariosController extends AppController {
 	 * @return void
 	 */
 	public function login() {
+		
+		/*
+		#if (!$this->Usuario->exists($usua_id)) {
+		if (!$this->Usuario->exists(127)) {
+		      throw new NotFoundException(__('Id inválido.'));
+		}
+
+		$user = $this->Usuario->find('first',
+	      array(
+				'conditions' => array(
+					'Usuario.usua_id' => 127
+				)
+	      )
+		);
+
+		echo "<pre>";
+		var_dump($user);
+		echo "</pre>";
+
+		$user['Usuario']['usua_password'] = AuthComponent::password('abcdefgh');
+
+		$this->Usuario->save($user);
+
+		echo "<pre>";
+		var_dump($user['Usuario']['usua_password']);
+		echo "</pre>";
+		die;
+		*/
+
+
+
+
+
+
 		$this->layout = 'login';
 
 		if ($this->request->is('post')) {
@@ -123,14 +157,24 @@ class UsuariosController extends AppController {
 					)
 				);
 
+
+				/*
+				echo "<pre>";
+				var_dump($this->Auth->user('usua_activo'));
+				echo "</pre>";
+				die;
+				*/
+
 				// verificamos si está activo
-				if (empty($perfilUsuario[0]['Usuario']['usua_activo'])) {
+				#if (empty($perfilUsuario[0]['Usuario']['usua_activo'])) {
+				if (false) {
 					$this->Session->setFlash(__('El usuario se encuentra desactivado. Por favor, contactar al administrador del sistema'), 'error_alert');
 					return $this->redirect($this->Auth->logout());
 				}
 
 				// verificamos si está caducado
-				if (strtotime($perfilUsuario[0]['Usuario']['usua_fecha_caducidad']) <= time()) {
+				#if (strtotime($perfilUsuario[0]['Usuario']['usua_fecha_caducidad']) <= time()) {
+				if (strtotime($this->Auth->user('usua_fecha_caducidad')) <= time()) {
 					$this->Session->setFlash(__('El usuario se encuentra caducado. Por favor, contactar al administrador del sistema'), 'error_alert');
 					return $this->redirect($this->Auth->logout());
 				}
